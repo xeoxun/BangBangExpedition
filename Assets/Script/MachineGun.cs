@@ -19,6 +19,7 @@ public class MachineGun : MonoBehaviour
     {
         nextFireTime = 0f;
         triggerHeld = false;
+        Debug.Log($"[Awake] {gameObject.name}, InstanceID={GetInstanceID()}, bulletPrefab={bulletPrefab}");
     }
 
     private void Update()
@@ -54,6 +55,7 @@ public class MachineGun : MonoBehaviour
         if (muzzle == null || bulletPrefab == null)
         {
             Debug.LogWarning($"muzzle={muzzle}, bulletPrefab={bulletPrefab}");
+            Debug.Log($"[Awake] {gameObject.name}, InstanceID={GetInstanceID()}, bulletPrefab={bulletPrefab}");
             return;
         }
 

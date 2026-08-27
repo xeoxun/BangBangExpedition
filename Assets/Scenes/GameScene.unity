@@ -45775,6 +45775,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3403577704710987410, guid: ad0101cc8adcfa84db0512d28b0f2236, type: 3}
   m_PrefabInstance: {fileID: 931056599}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &932261419 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9144261076929943597, guid: e9379f566125e0f44954bcdb86d8d196, type: 3}
+  m_PrefabInstance: {fileID: 1430091470}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6371c81a036ef9a4e90726407ff2e741, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MachineGun
 --- !u!1001 &932812680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68300,7 +68311,7 @@ MonoBehaviour:
   characterVisual: {fileID: 1430091474}
   animator: {fileID: 1430091476}
   animationDampTime: 0.1
-  machineGun: {fileID: 278213031307404298, guid: 019c3fd29c7e31c45837c8375036d0f4, type: 3}
+  machineGun: {fileID: 932261419}
 --- !u!95 &1430091476 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5304553106770845195, guid: e9379f566125e0f44954bcdb86d8d196, type: 3}
