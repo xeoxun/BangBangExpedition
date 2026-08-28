@@ -19,7 +19,6 @@ public class MachineGun : MonoBehaviour
     {
         nextFireTime = 0f;
         triggerHeld = false;
-        Debug.Log($"[Awake] {gameObject.name}, InstanceID={GetInstanceID()}, bulletPrefab={bulletPrefab}");
     }
 
     private void Update()
@@ -44,18 +43,13 @@ public class MachineGun : MonoBehaviour
 
     private void TryFire()
     {
-        Debug.Log($"TryFire 호출됨: Time.time={Time.time}, nextFireTime={nextFireTime}");
-
         if (Time.time < nextFireTime)
         {
-            Debug.Log("쿨다운 중이라 리턴");
             return;
         }
 
         if (muzzle == null || bulletPrefab == null)
         {
-            Debug.LogWarning($"muzzle={muzzle}, bulletPrefab={bulletPrefab}");
-            Debug.Log($"[Awake] {gameObject.name}, InstanceID={GetInstanceID()}, bulletPrefab={bulletPrefab}");
             return;
         }
 
@@ -65,8 +59,6 @@ public class MachineGun : MonoBehaviour
 
         fireDirection.y = 0f;
         fireDirection.Normalize();
-
-        Debug.Log($"Instantiate 직전: position={muzzle.position}, direction={fireDirection}");
 
         BulletProjectile bullet = Instantiate(bulletPrefab, muzzle.position, Quaternion.LookRotation(fireDirection));
         bullet.Fire(fireDirection, bulletSpeed);

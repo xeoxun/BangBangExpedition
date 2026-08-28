@@ -5,8 +5,9 @@ using UnityEngine;
 public class BulletProjectile : MonoBehaviour
 {
     [Header("총알 설정")]
-    [SerializeField] private float lifeTime = 3f;
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private float lifeTime;
+    public float damage;
+    public float Damage => damage;
 
     private Rigidbody bulletRigidbody;
 
@@ -23,11 +24,11 @@ public class BulletProjectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent(out IDamageable damageable))
-        {
-            damageable.TakeDamage(damage);
-        }
+        Destroy(gameObject);
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
         Destroy(gameObject);
     }
 }

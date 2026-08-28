@@ -76,11 +76,6 @@ public class PlayerControl : MonoBehaviour
         if (machineGun != null)
         {
             machineGun.SetTriggerHeld(isAttacking);
-            Debug.Log("인식을 해버렷징");
-        }
-        else
-        {
-            Debug.Log("인식을 못행");
         }
     }
 
