@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections;
 
 public class MachineGun : MonoBehaviour
 {
@@ -14,40 +12,19 @@ public class MachineGun : MonoBehaviour
 
     [SerializeField] private float bulletSpeed = 30f;
 
-    [Header("탄창")]
-    [SerializeField] private int magazineSize = 30;
-    [SerializeField] private float reloadTime = 1.5f;
-
-    [Header("UI")]
-    [SerializeField] private AmmoUI ammoUI;
-
-    private int currentAmmo;
     private bool triggerHeld;
-    private bool isReloading;
     private float nextFireTime;
 
     private void Awake()
     {
-        currentAmmo = magazineSize;
-        triggerHeld = false;
-        isReloading = false;
         nextFireTime = 0f;
-    }
-
-    private void Start()
-    {
-        ammoUI?.UpdateAmmo(currentAmmo, magazineSize);
+        triggerHeld = false;
+        Debug.Log($"[Awake] {gameObject.name}, InstanceID={GetInstanceID()}, bulletPrefab={bulletPrefab}");
     }
 
     private void Update()
     {
-        if (Keyboard.current != null &&
-            Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            StartReload();
-        }
-
-        if (!triggerHeld || isReloading)
+        if (!triggerHeld)
         {
             return;
         }
@@ -59,7 +36,7 @@ public class MachineGun : MonoBehaviour
     {
         triggerHeld = isHeld;
 
-        if (triggerHeld && !isReloading)
+        if (triggerHeld)
         {
             TryFire();
         }
@@ -67,63 +44,31 @@ public class MachineGun : MonoBehaviour
 
     private void TryFire()
     {
-        if (isReloading || currentAmmo <= 0)
-        {
-            return;
-        }
+        Debug.Log($"TryFire 호출됨: Time.time={Time.time}, nextFireTime={nextFireTime}");
 
         if (Time.time < nextFireTime)
         {
+            Debug.Log("쿨다운 중이라 리턴");
             return;
         }
 
         if (muzzle == null || bulletPrefab == null)
         {
+            Debug.LogWarning($"muzzle={muzzle}, bulletPrefab={bulletPrefab}");
+            Debug.Log($"[Awake] {gameObject.name}, InstanceID={GetInstanceID()}, bulletPrefab={bulletPrefab}");
             return;
         }
+
+        nextFireTime = Time.time + (1f / fireRate);
 
         Vector3 fireDirection = aimDirectionSource != null ? aimDirectionSource.forward : muzzle.forward;
 
         fireDirection.y = 0f;
-
-        if (fireDirection.sqrMagnitude < 0.001f)
-        {
-            return;
-        }
-
         fireDirection.Normalize();
 
-        nextFireTime = Time.time + (1f / fireRate);
+        Debug.Log($"Instantiate 직전: position={muzzle.position}, direction={fireDirection}");
 
         BulletProjectile bullet = Instantiate(bulletPrefab, muzzle.position, Quaternion.LookRotation(fireDirection));
         bullet.Fire(fireDirection, bulletSpeed);
-
-        currentAmmo--;
-
-        ammoUI?.UpdateAmmo(currentAmmo, magazineSize);
-    }
-
-    private void StartReload()
-    {
-        if (isReloading || currentAmmo >= magazineSize)
-        {
-            return;
-        }
-
-        StartCoroutine(ReloadCoroutine());
-    }
-
-    private IEnumerator ReloadCoroutine()
-    {
-        isReloading = true;
-
-        ammoUI?.ShowReloading();
-
-        yield return new WaitForSeconds(reloadTime);
-
-        currentAmmo = magazineSize;
-        isReloading = false;
-
-        ammoUI?.UpdateAmmo(currentAmmo, magazineSize);
     }
 }
